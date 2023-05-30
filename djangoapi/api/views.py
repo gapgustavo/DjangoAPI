@@ -5,24 +5,26 @@ from django.shortcuts import render
 
 def math(request):
     if request.method == 'POST':
-        number1 = request.POST.get('number1')
-        number2 = request.POST.get('number2')
-        operation = request.POST.get('operation')
+        try:
+            number1 = int(request.POST.get('number1'))
+            number2 = int(request.POST.get('number2'))
+            operation = request.POST.get('operation')
 
-        number1 = int(number1)
-        number2 = int(number2)
-        if operation == 'sum' or operation == '+':
-            result = number1 + number2
-        elif operation == 'subtraction' or operation == '-':
-            result = number1 - number2
-        elif operation == 'division' or operation == '/':
-            result = number1 / number2
-        elif operation == 'multiplication' or operation == 'x' or operation == '*':
-            result = number1 * number2
-        else:
-            return JsonResponse({'error': 'INVALID OPERATION'})
+            if operation in ['sum', '+']:
+                result = number1 + number2
+            elif operation in ['subtraction', '-']:
+                result = number1 - number2
+            elif operation in ['division', '/']:
+                result = number1 / number2
+            elif operation in ['multiplication', 'x', '*']:
+                result = number1 * number2
+            else:
+                return JsonResponse({'error': 'INVALID OPERATION'})
 
-        return JsonResponse({'result': result})
+            return JsonResponse({'result': result})
+        except (ValueError, ZeroDivisionError):
+            return JsonResponse({'error': 'INVALID INPUT'})
+
 
 def DocPage(request):
     return render(request, "apimath/scanapi-report.html")
