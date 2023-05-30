@@ -1,0 +1,16 @@
+endpoints:
+  - name: Math API
+    path: http://localhost:8000/
+    headers:
+      Content-Type: 'application/x-www-form-urlencoded; charset=UTF-8'
+    requests:
+      - name: math
+        path: api/
+        method: post
+        body:
+          number1: '2'
+          number2: '4'
+          operation: '+'
+        tests:
+          - name: OK
+            assert: ${{response.status_code == 200}}
