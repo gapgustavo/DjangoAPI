@@ -41,4 +41,11 @@ class MathViewTest(TestCase):
         content = json.loads(response.content)
         self.assertEqual(content, {'error': 'INVALID OPERATION'})
 
+    def test_invalid_input(self):
+        request = self.factory.post('/', {'number1': 'invalid', 'number2': 3, 'operation': 'sum'})
+        response = math(request)
+        self.assertEqual(response.status_code, 200)
+        content = json.loads(response.content)
+        self.assertEqual(content['error'], 'INVALID INPUT')
+        
 #To run the test you need to be in the folder where manage.py is, after that use the command "python manage.py test"
